@@ -14,4 +14,5 @@ import sm360.techassignment.entity.Dealer;
  */
 public interface DealerDAO extends PagingAndSortingRepository<Dealer, UUID>{
 
+	
 }

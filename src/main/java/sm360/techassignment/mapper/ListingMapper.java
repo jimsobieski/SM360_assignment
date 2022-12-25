@@ -7,8 +7,20 @@ import sm360.techassignment.entity.Dealer;
 import sm360.techassignment.entity.Listing;
 import sm360.techassignment.enumeration.ListingState;
 
+/**
+ * Mapper for Listing entity
+ * 
+ * @author staton
+ *
+ */
 public class ListingMapper {
 
+	/**
+	 * Transform a Listing into a ListingDTO
+	 * 
+	 * @param entity
+	 * @return a ListingDTO
+	 */
 	public static ListingDTO mapEntityToDTO(Listing entity) {
 		var builder = ListingDTO.builder();
 		builder.createdAt(entity.getCreatedAt())
@@ -24,6 +36,12 @@ public class ListingMapper {
 		return builder.build();
 	}
 	
+	/**
+	 * Transform a ListingDTO into a Listing
+	 * 
+	 * @param entity
+	 * @return a Listing
+	 */
 	public static Listing mapDTOToEntity(ListingDTO dto) {
 		  var builder = Listing.builder();
 		  builder.createdAt(dto.getCreatedAt())

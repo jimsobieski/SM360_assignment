@@ -29,4 +29,8 @@ public class ListingServiceApi {
 		return listingService.findListingByDealerIdAndState(id, state).stream()
 				.map(ListingMapper::mapEntityToDTO).collect(Collectors.toList());
 	}
+	
+	public ListingDTO publish(UUID listingId , Boolean overwrite) {
+		return ListingMapper.mapEntityToDTO(listingService.publish(listingId, overwrite));
+	}
 }

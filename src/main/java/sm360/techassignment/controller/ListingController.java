@@ -5,6 +5,8 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,5 +33,13 @@ public class ListingController {
 	@GetMapping("/dealer")
 	public List<ListingDTO> findListingByDealerIdAndState(@RequestParam("dealerId") UUID dealerId, ListingState state) {
 		return listingServiceApi.findListingByDealerIdAndState(dealerId, state);
+	}
+	
+	@PostMapping("{listingId}/publish")
+	public ListingDTO publish(@PathVariable("listingId") UUID listingId, 
+			@RequestParam(name="overwrite", 
+			required = false, 
+			defaultValue= "false") Boolean overwrite) {
+		return listingServiceApi.publish(listingId, overwrite);
 	}
 }
