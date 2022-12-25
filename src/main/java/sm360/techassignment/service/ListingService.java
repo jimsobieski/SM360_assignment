@@ -73,10 +73,18 @@ public class ListingService {
 	 * @param listing
 	 * @return a new listing
 	 */
-	public Listing createListing(Listing listing) {
+	public Listing create(Listing listing) {
 		listing.setState(ListingState.draft);
 		listing.setCreatedAt(LocalDate.now());
 		return listingDAO.save(listing);
+	}
+	
+	public Listing update(Listing listing) {
+		var listingToUpdate = findById(listing.getId());
+		listingToUpdate.setPrice(listing.getPrice());
+		listingToUpdate.setVehicle(listing.getVehicle());
+		return listingDAO.save(listingToUpdate);
+		
 	}
 	
 	/**

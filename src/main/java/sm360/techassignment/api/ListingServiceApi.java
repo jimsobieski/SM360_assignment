@@ -19,9 +19,15 @@ public class ListingServiceApi {
 
 	private final ListingService listingService;
 	
-	public ListingDTO createListing(ListingDTO dto) {
+	public ListingDTO create(ListingDTO dto) {
 		var entity = ListingMapper.mapDTOToEntity(dto);
-		entity = listingService.createListing(entity);
+		entity = listingService.create(entity);
+		return ListingMapper.mapEntityToDTO(entity);
+	}
+	
+	public ListingDTO update(ListingDTO dto) {
+		var entity = ListingMapper.mapDTOToEntity(dto);
+		entity = listingService.update(entity);
 		return ListingMapper.mapEntityToDTO(entity);
 	}
 	
@@ -33,4 +39,5 @@ public class ListingServiceApi {
 	public ListingDTO publish(UUID listingId , Boolean overwrite) {
 		return ListingMapper.mapEntityToDTO(listingService.publish(listingId, overwrite));
 	}
+	
 }

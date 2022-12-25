@@ -47,7 +47,7 @@ public class ListingServiceTests {
         given(listingDAO.save(any(Listing.class))).willReturn(listing);
 
         // when
-        var result = listingService.createListing(listing);
+        var result = listingService.create(listing);
 
         // then
         assertThat(result).isEqualTo(listing);

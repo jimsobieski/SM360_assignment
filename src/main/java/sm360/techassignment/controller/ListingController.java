@@ -26,8 +26,13 @@ public class ListingController {
 	private ListingServiceApi listingServiceApi;
 	
 	@PutMapping("/create")
-	public ListingDTO save(@RequestBody ListingDTO listingDto) {
-		return listingServiceApi.createListing(listingDto);
+	public ListingDTO create(@RequestBody ListingDTO listingDto) {
+		return listingServiceApi.create(listingDto);
+	}
+	
+	@PostMapping("/update")
+	public ListingDTO update(@RequestBody ListingDTO listingDto) {
+		return listingServiceApi.update(listingDto);
 	}
 	
 	@GetMapping("/dealer")
