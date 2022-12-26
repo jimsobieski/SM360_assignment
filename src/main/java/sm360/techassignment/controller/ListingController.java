@@ -27,27 +27,27 @@ public class ListingController {
 	private ListingServiceApi listingServiceApi;
 	
 	@GetMapping("/{id}")
-	public ListingDTO findById(@PathVariable("id") UUID id){
+	public ListingDTO findListingById(@PathVariable("id") UUID id){
 		return listingServiceApi.findById(id);
 	}
 	
 	@PutMapping
-	public ListingDTO create(@RequestBody ListingDTO listingDto) {
+	public ListingDTO createListing(@RequestBody ListingDTO listingDto) {
 		return listingServiceApi.create(listingDto);
 	}
 	
 	@PostMapping
-	public ListingDTO update(@RequestBody ListingDTO listingDto) {
+	public ListingDTO updateListing(@RequestBody ListingDTO listingDto) {
 		return listingServiceApi.update(listingDto);
 	}
 	
 	@DeleteMapping("/{id}")
-	public void delete(@PathVariable("id") UUID id) {
+	public void deleteListing(@PathVariable("id") UUID id) {
 		listingServiceApi.delete(id);
 	}
 	
 	@GetMapping
-	public List<ListingDTO> findAll(){
+	public List<ListingDTO> findAllListing(){
 		return listingServiceApi.findAll();
 	}
 	
@@ -57,10 +57,15 @@ public class ListingController {
 	}
 	
 	@PostMapping("{listingId}/publish")
-	public ListingDTO publish(@PathVariable("listingId") UUID listingId, 
+	public ListingDTO publishListing(@PathVariable("listingId") UUID listingId, 
 			@RequestParam(name="overwrite", 
 			required = false, 
 			defaultValue= "false") Boolean overwrite) {
 		return listingServiceApi.publish(listingId, overwrite);
+	}
+	
+	@PostMapping("{listingId}/unpublish")
+	public ListingDTO unpublishListing(@PathVariable("listingId") UUID listingId) {
+		return listingServiceApi.unpublish(listingId);
 	}
 }

@@ -53,4 +53,8 @@ public class ListingServiceApi {
 		return ListingMapper.mapEntityToDTO(listingService.publish(listingId, overwrite));
 	}
 	
+	public ListingDTO unpublish(UUID listingId) {
+		return ListingMapper.mapEntityToDTO(listingService.unpublish(listingId));
+	}
+	
 }
