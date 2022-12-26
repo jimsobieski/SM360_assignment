@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,14 +26,29 @@ public class ListingController {
 
 	private ListingServiceApi listingServiceApi;
 	
-	@PutMapping("/create")
+	@GetMapping("/{id}")
+	public ListingDTO findById(@PathVariable("id") UUID id){
+		return listingServiceApi.findById(id);
+	}
+	
+	@PutMapping
 	public ListingDTO create(@RequestBody ListingDTO listingDto) {
 		return listingServiceApi.create(listingDto);
 	}
 	
-	@PostMapping("/update")
+	@PostMapping
 	public ListingDTO update(@RequestBody ListingDTO listingDto) {
 		return listingServiceApi.update(listingDto);
+	}
+	
+	@DeleteMapping("/{id}")
+	public void delete(@PathVariable("id") UUID id) {
+		listingServiceApi.delete(id);
+	}
+	
+	@GetMapping
+	public List<ListingDTO> findAll(){
+		return listingServiceApi.findAll();
 	}
 	
 	@GetMapping("/dealer")

@@ -12,6 +12,11 @@ import sm360.techassignment.entity.Listing;
 import sm360.techassignment.enumeration.ListingState;
 
 public interface ListingDAO extends CrudRepository<Listing, UUID>{
+	
+	/**
+	 * Return all listing
+	 */
+	List<Listing> findAll();
 
 	/**
 	 * search in database a list of listing for a dealer and a state

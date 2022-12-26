@@ -19,6 +19,15 @@ public class ListingServiceApi {
 
 	private final ListingService listingService;
 	
+	public ListingDTO findById(UUID id){
+		return ListingMapper.mapEntityToDTO(listingService.findById(id));
+	}
+	
+	public List<ListingDTO> findAll(){
+		return listingService.findAll().stream().map(ListingMapper::mapEntityToDTO)
+				.collect(Collectors.toList());
+	}
+	
 	public ListingDTO create(ListingDTO dto) {
 		var entity = ListingMapper.mapDTOToEntity(dto);
 		entity = listingService.create(entity);
@@ -29,6 +38,10 @@ public class ListingServiceApi {
 		var entity = ListingMapper.mapDTOToEntity(dto);
 		entity = listingService.update(entity);
 		return ListingMapper.mapEntityToDTO(entity);
+	}
+	
+	public void delete(UUID id) {
+		listingService.delete(id);
 	}
 	
 	public List<ListingDTO> findListingByDealerIdAndState(UUID id, ListingState state) {

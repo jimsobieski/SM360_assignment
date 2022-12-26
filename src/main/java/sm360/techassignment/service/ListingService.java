@@ -46,6 +46,15 @@ public class ListingService {
 	}
 	
 	/**
+	 * get all listing
+	 * 
+	 * @return a list of all listing
+	 */
+	public List<Listing> findAll(){
+		return listingDAO.findAll();
+	}
+	
+	/**
 	 * search in database a list of listing for a dealer and a state
 	 * 
 	 * @param dealerId
@@ -98,7 +107,17 @@ public class ListingService {
 		LOGGER.debug("Updating listing with id {}. New price: {}, new vehicle: {}",
 				listing.getId(), listing.getPrice(), listing.getVehicle());
 		return listingDAO.save(listingToUpdate);
-		
+	}
+	
+	/**
+	 * Delete a listing
+	 * 
+	 * @param id
+	 */
+	public void delete(UUID id) {
+		var listing = findById(id);
+		LOGGER.debug("Deleting listing with id {}", id);
+		listingDAO.delete(listing);
 	}
 	
 	/**

@@ -2,8 +2,8 @@
 SM360 Tech Assignment is a Java 17 project that aims to provide a web application for managing car listings and dealers.
 
 ## Features
-Create, read, update and delete listings and dealers
-Publish and unpublish listings
+Create, read, update and delete listings. 
+Publish and unpublish listings. 
 A tier system that limits the number of published listings per dealer
 ## Technologies
 - Spring Boot
