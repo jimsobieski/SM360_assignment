@@ -59,7 +59,7 @@ public class ListingService {
 	 * @param state
 	 * @return the number of listing for a dealer and a state
 	 */
-	private int countListingByDealerIdAndState(UUID dealerId, ListingState state) {
+	public int countListingByDealerIdAndState(UUID dealerId, ListingState state) {
 		return findListingByDealerIdAndState(dealerId, state).size();
 	}
 	
@@ -79,6 +79,12 @@ public class ListingService {
 		return listingDAO.save(listing);
 	}
 	
+	/**
+	 * Update price and vehicule of listing
+	 * 
+	 * @param listing
+	 * @return a listing updated
+	 */
 	public Listing update(Listing listing) {
 		var listingToUpdate = findById(listing.getId());
 		listingToUpdate.setPrice(listing.getPrice());
@@ -122,8 +128,12 @@ public class ListingService {
 		return listingDAO.save(listing);
 	}
 	
-	
+	/**
+	 * Find the oldest publish listing of a dealer and set it to draft 
+	 * 
+	 * @param dealerId
+	 */
 	public void unpublishOldestListingByDealerId(UUID dealerId) {
-		listingDAO.unpublishOldestListingByDealerId(dealerId, ListingState.draft);
+		listingDAO.setStateOldestPublishListingByDealerId(dealerId, ListingState.draft);
 	}
 }
