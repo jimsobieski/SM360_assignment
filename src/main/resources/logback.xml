@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+  <!-- Définit la stratégie de log à utiliser -->
+  <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+    <!-- Layout utilisé pour formater les logs -->
+    <layout class="ch.qos.logback.classic.PatternLayout">
+      <!-- Le pattern "%-5level [%thread] %logger{35} - %msg%n" affichera le niveau de log (ERROR, WARN, etc.),
+           le nom du thread, le logger (ici, la classe ListingService), et le message -->
+      <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{35} - %msg%n</pattern>
+    </layout>
+  </appender>
+
+  <root level="INFO">
+    <appender-ref ref="console" />
+  </root>
+
+</configuration>

@@ -15,6 +15,8 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -30,6 +32,8 @@ public class ListingService {
 
 	private final ListingDAO listingDAO;
 	private final Sm360Properties sm360Properties;
+	
+	private static final Logger LOGGER = LoggerFactory.getLogger(ListingService.class);
 	
 	/**
 	 * find a listing by id
@@ -76,6 +80,8 @@ public class ListingService {
 	public Listing create(Listing listing) {
 		listing.setState(ListingState.draft);
 		listing.setCreatedAt(LocalDate.now());
+		LOGGER.debug("Creating new listing with vehicle {} and price {}",
+				listing.getVehicle(), listing.getPrice());
 		return listingDAO.save(listing);
 	}
 	
@@ -89,6 +95,8 @@ public class ListingService {
 		var listingToUpdate = findById(listing.getId());
 		listingToUpdate.setPrice(listing.getPrice());
 		listingToUpdate.setVehicle(listing.getVehicle());
+		LOGGER.debug("Updating listing with id {}. New price: {}, new vehicle: {}",
+				listing.getId(), listing.getPrice(), listing.getVehicle());
 		return listingDAO.save(listingToUpdate);
 		
 	}
@@ -109,11 +117,13 @@ public class ListingService {
 			if(overwrite) {
 				unpublishOldestListingByDealerId(dealerId);
 			} else {
+				LOGGER.warn("TierLimit is exceeded");
 				throw new TierLimitExceededException();
 			}
 			
 		}
 		listing.setState(ListingState.published);
+		LOGGER.debug("Publishing listing with id {}", listingId);
 		return listingDAO.save(listing);
 	}
 	
@@ -125,6 +135,7 @@ public class ListingService {
 	public Listing unpublish(UUID listingId) {
 		var listing = findById(listingId);
 		listing.setState(ListingState.draft);
+		LOGGER.debug("Unpublish listing with id {}", listingId);
 		return listingDAO.save(listing);
 	}
 	
