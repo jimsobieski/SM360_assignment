@@ -6,6 +6,7 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.AllArgsConstructor;
 import sm360.techassignment.api.DealerServiceApi;
 import sm360.techassignment.dto.DealerDTO;
+import sm360.techassignment.enumeration.ProfileEnum;
 
 @RestController
 @RequestMapping("dealer")
@@ -35,5 +37,10 @@ public class DealerController {
 	@GetMapping
 	public List<DealerDTO> findAllDealer(){
 		return dealerServiceApi.findAll();
+	}
+	
+	@PostMapping("{id}/profile/{codeProfile}")
+	public DealerDTO updateProfile(@PathVariable("id") UUID id, @PathVariable("codeProfile") ProfileEnum profileEnum) {
+		return dealerServiceApi.updateProfile(id, profileEnum);
 	}
 }

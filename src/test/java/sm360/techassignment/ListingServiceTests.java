@@ -24,10 +24,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import sm360.techassignment.dao.ListingDAO;
 import sm360.techassignment.entity.Dealer;
 import sm360.techassignment.entity.Listing;
+import sm360.techassignment.entity.Profile;
 import sm360.techassignment.enumeration.ListingState;
+import sm360.techassignment.enumeration.ProfileEnum;
 import sm360.techassignment.exception.TierLimitExceededException;
 import sm360.techassignment.mapper.ListingMapper;
-import sm360.techassignment.properties.Sm360Properties;
 import sm360.techassignment.service.ListingService;
 
 @SpringBootTest
@@ -40,9 +41,6 @@ public class ListingServiceTests {
     @Mock
     private ListingDAO listingDAO;
     
-    @Mock
-    private Sm360Properties sm360Properties;
-
     @InjectMocks
     private ListingService listingService;
     
@@ -92,7 +90,6 @@ public class ListingServiceTests {
     	given(listingDAO.findById(listing.getId())).willReturn(Optional.of(listing));
     	given(listingDAO.findListingByDealerIdAndState(DEALER_ID_1, ListingState.published))
     	.willReturn(mockListingList);
-    	given(sm360Properties.getTierlimit()).willReturn(5);
 
     	// when
     	assertThrows(TierLimitExceededException.class, () -> listingService.publish(listing.getId(), false));
@@ -115,7 +112,6 @@ public class ListingServiceTests {
     	given(listingDAO.findListingByDealerIdAndState(DEALER_ID_1, ListingState.published))
     	.willReturn(mockListingList);
     	given(listingDAO.save(draftListing)).willReturn(publishListing);
-    	given(sm360Properties.getTierlimit()).willReturn(5);
     	// when
     	var result = listingService.publish(draftListing.getId(), true);
 
@@ -140,7 +136,6 @@ public class ListingServiceTests {
         verify(listingDAO).findById(listingId);
         verify(listingDAO).save(publishedListing);
     }
-
     
     @Test
     public void testMapEntityToDTO() {
@@ -168,7 +163,12 @@ public class ListingServiceTests {
     private Listing getDraftListing() {
     	return Listing.builder()
     	    	.id(UUID.randomUUID())
-    	    	.dealer(Dealer.builder().id(DEALER_ID_1).build())
+    	    	.dealer(Dealer.builder().id(DEALER_ID_1)
+    	    			.profile(Profile.builder()
+    	    					.code(ProfileEnum.NORMAL)
+    	    					.maxPublications(5)
+    	    					.build())
+    	    			.build())
     	    	.vehicle(VEHICULE_NAME)
     	    	.price(BigDecimal.valueOf(10000))
     	    	.state(ListingState.draft)
@@ -178,7 +178,12 @@ public class ListingServiceTests {
     private Listing getPublishListing() {
     	return Listing.builder()
     	    	.id(UUID.randomUUID())
-    	    	.dealer(Dealer.builder().id(DEALER_ID_1).build())
+    	    	.dealer(Dealer.builder().id(DEALER_ID_1)
+    	    			.profile(Profile.builder()
+    	    					.code(ProfileEnum.NORMAL)
+    	    					.maxPublications(5)
+    	    					.build())
+    	    			.build())
     	    	.vehicle(VEHICULE_NAME)
     	    	.price(BigDecimal.valueOf(10000))
     	    	.state(ListingState.published)
