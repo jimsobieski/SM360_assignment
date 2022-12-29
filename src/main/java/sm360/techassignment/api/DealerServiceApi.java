@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
 import sm360.techassignment.dto.DealerDTO;
+import sm360.techassignment.enumeration.ProfileEnum;
 import sm360.techassignment.mapper.DealerMapper;
 import sm360.techassignment.service.DealerService;
 
@@ -29,5 +30,9 @@ public class DealerServiceApi {
 	public List<DealerDTO> findAll(){
 		return dealerService.findAll().stream().map(DealerMapper::mapEntityToDTO)
 				.collect(Collectors.toList());
+	}
+	
+	public DealerDTO updateProfile(UUID dealerId, ProfileEnum codeProfile) {
+		return DealerMapper.mapEntityToDTO(dealerService.updateProfile(dealerId, codeProfile));
 	}
 }

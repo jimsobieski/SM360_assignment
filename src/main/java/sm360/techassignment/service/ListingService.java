@@ -9,7 +9,6 @@ import sm360.techassignment.entity.Listing;
 import sm360.techassignment.enumeration.ListingState;
 import sm360.techassignment.exception.EntityNotFoundException;
 import sm360.techassignment.exception.TierLimitExceededException;
-import sm360.techassignment.properties.Sm360Properties;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -31,7 +30,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class ListingService {
 
 	private final ListingDAO listingDAO;
-	private final Sm360Properties sm360Properties;
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(ListingService.class);
 	
@@ -132,7 +130,8 @@ public class ListingService {
 		var listing = findById(listingId);
 		var dealerId = listing.getDealer().getId();
 		var countPublishedListing = countListingByDealerIdAndState(dealerId, ListingState.published);
-		if(countPublishedListing >= sm360Properties.getTierlimit()) {
+		var countLimit = listing.getDealer().getProfile().getMaxPublications();
+		if(countPublishedListing >= countLimit) {
 			if(overwrite) {
 				unpublishOldestListingByDealerId(dealerId);
 			} else {
